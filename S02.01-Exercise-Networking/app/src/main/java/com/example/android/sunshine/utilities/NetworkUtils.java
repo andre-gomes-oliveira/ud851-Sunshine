@@ -15,9 +15,13 @@
  */
 package com.example.android.sunshine.utilities;
 
+import android.net.Uri;
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -25,6 +29,8 @@ import java.util.Scanner;
  * These utilities will be used to communicate with the weather servers.
  */
 public final class NetworkUtils {
+
+    private static final String APIKEY = "secret";
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
@@ -65,8 +71,24 @@ public final class NetworkUtils {
      * @return The URL to use to query the weather server.
      */
     public static URL buildUrl(String locationQuery) {
-        // TODO (1) Fix this method to return the URL used to query Open Weather Map's API
-        return null;
+        // COMPLETED (1) Fix this method to return the URL used to query Open Weather Map's API
+        Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+                .appendQueryParameter(QUERY_PARAM, locationQuery)
+                .appendQueryParameter(QUERY_PARAM, format)
+                .appendQueryParameter(QUERY_PARAM, units)
+                .appendQueryParameter(QUERY_PARAM, Integer.toString(numDays))
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        Log.v(TAG, "Built URI " + url);
+
+        return url;
     }
 
     /**
