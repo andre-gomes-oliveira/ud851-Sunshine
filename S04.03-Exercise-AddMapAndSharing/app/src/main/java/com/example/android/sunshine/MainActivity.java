@@ -155,6 +155,28 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
+    private void buildURI()
+    {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("geo")
+                .path("0,0")
+                .query("1758 Av. dos Astronautas, SP");
+        Uri addressUri = builder.build();
+
+        showMap(addressUri);
+    }
+
+    private void showMap(Uri uri)
+    {
+        Intent intentToShowMap = new Intent(Intent.ACTION_VIEW);
+        intentToShowMap.setData(uri);
+
+        if (intentToShowMap.resolveActivity(getPackageManager()) != null)
+        {
+            startActivity(intentToShowMap);
+        }
+    }
+
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
         @Override
@@ -221,7 +243,11 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
             return true;
         }
 
-        // TODO (2) Launch the map when the map menu item is clicked
+        // COMPLETED (2) Launch the map when the map menu item is clicked
+        if (id == R.id.action_open_map) {
+            buildURI();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
