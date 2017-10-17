@@ -335,12 +335,13 @@ public class MainActivity extends AppCompatActivity implements
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
-    // TODO (7) In onStart, if preferences have been changed, refresh the data and set the preferencesUpdated to false
+    // COMPLETED (7) In onStart, if preferences have been changed, refresh the data and set the preferencesUpdated to false
     @Override
     protected void onStart() {
         super.onStart();
 
         if (preferencesUpdated) {
+            getSupportLoaderManager().restartLoader(FORECAST_LOADER_ID, null, this);
             preferencesUpdated = false;
         }
     }
