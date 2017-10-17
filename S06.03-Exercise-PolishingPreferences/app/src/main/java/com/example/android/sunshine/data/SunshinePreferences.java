@@ -89,6 +89,8 @@ public class SunshinePreferences {
     public static String getPreferredWeatherLocation(Context context) {
         // TODO (1) Return the user's preferred location
         /** This will be implemented in a future lesson **/
+
+        context.getSharedPreferences();
         return getDefaultWeatherLocation();
     }
 
