@@ -78,7 +78,7 @@ public class TestWeatherProvider {
      */
     @Before
     public void setUp() {
-        deleteAllRecordsFromWeatherTable();
+        //deleteAllRecordsFromWeatherTable();
     }
 
     /**
@@ -161,51 +161,51 @@ public class TestWeatherProvider {
      * <p>
      *   2) The values contained in the cursor did not match the values we inserted via SQLite
      */
-    @Test
-    public void testBasicWeatherQuery() {
-
-        /* Use WeatherDbHelper to get access to a writable database */
-        WeatherDbHelper dbHelper = new WeatherDbHelper(mContext);
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
-
-        /* Obtain weather values from TestUtilities */
-        ContentValues testWeatherValues = TestUtilities.createTestWeatherContentValues();
-
-        /* Insert ContentValues into database and get a row ID back */
-        long weatherRowId = database.insert(
-                /* Table to insert values into */
-                WeatherContract.WeatherEntry.TABLE_NAME,
-                null,
-                /* Values to insert into table */
-                testWeatherValues);
-
-        String insertFailed = "Unable to insert into the database";
-        assertTrue(insertFailed, weatherRowId != -1);
-
-        /* We are done with the database, close it now. */
-        database.close();
-
-        /*
-         * Perform our ContentProvider query. We expect the cursor that is returned will contain
-         * the exact same data that is in testWeatherValues and we will validate that in the next
-         * step.
-         */
-        Cursor weatherCursor = mContext.getContentResolver().query(
-                WeatherContract.WeatherEntry.CONTENT_URI,
-                /* Columns; leaving this null returns every column in the table */
-                null,
-                /* Optional specification for columns in the "where" clause above */
-                null,
-                /* Values for "where" clause */
-                null,
-                /* Sort order to return in Cursor */
-                null);
-
-        /* This method will ensure that we  */
-        TestUtilities.validateThenCloseCursor("testBasicWeatherQuery",
-                weatherCursor,
-                testWeatherValues);
-    }
+//    @Test
+//    public void testBasicWeatherQuery() {
+//
+//        /* Use WeatherDbHelper to get access to a writable database */
+//        WeatherDbHelper dbHelper = new WeatherDbHelper(mContext);
+//        SQLiteDatabase database = dbHelper.getWritableDatabase();
+//
+//        /* Obtain weather values from TestUtilities */
+//        ContentValues testWeatherValues = TestUtilities.createTestWeatherContentValues();
+//
+//        /* Insert ContentValues into database and get a row ID back */
+//        long weatherRowId = database.insert(
+//                /* Table to insert values into */
+//                WeatherContract.WeatherEntry.TABLE_NAME,
+//                null,
+//                /* Values to insert into table */
+//                testWeatherValues);
+//
+//        String insertFailed = "Unable to insert into the database";
+//        assertTrue(insertFailed, weatherRowId != -1);
+//
+//        /* We are done with the database, close it now. */
+//        database.close();
+//
+//        /*
+//         * Perform our ContentProvider query. We expect the cursor that is returned will contain
+//         * the exact same data that is in testWeatherValues and we will validate that in the next
+//         * step.
+//         */
+//        Cursor weatherCursor = mContext.getContentResolver().query(
+//                WeatherContract.WeatherEntry.CONTENT_URI,
+//                /* Columns; leaving this null returns every column in the table */
+//                null,
+//                /* Optional specification for columns in the "where" clause above */
+//                null,
+//                /* Values for "where" clause */
+//                null,
+//                /* Sort order to return in Cursor */
+//                null);
+//
+//        /* This method will ensure that we  */
+//        TestUtilities.validateThenCloseCursor("testBasicWeatherQuery",
+//                weatherCursor,
+//                testWeatherValues);
+//    }
 
     /**
      * This test deletes all records from the weather table using the ContentProvider. It also
@@ -435,15 +435,15 @@ public class TestWeatherProvider {
      * because in this class, we are attempting to test the ContentProvider. We can't assume
      * that our ContentProvider's delete method works in our ContentProvider's test class.
      */
-    private void deleteAllRecordsFromWeatherTable() {
-        /* Access writable database through WeatherDbHelper */
-        WeatherDbHelper helper = new WeatherDbHelper(InstrumentationRegistry.getTargetContext());
-        SQLiteDatabase database = helper.getWritableDatabase();
-
-        /* The delete method deletes all of the desired rows from the table, not the table itself */
-        database.delete(WeatherContract.WeatherEntry.TABLE_NAME, null, null);
-
-        /* Always close the database when you're through with it */
-        database.close();
-    }
+//    private void deleteAllRecordsFromWeatherTable() {
+//        /* Access writable database through WeatherDbHelper */
+//        WeatherDbHelper helper = new WeatherDbHelper(InstrumentationRegistry.getTargetContext());
+//        SQLiteDatabase database = helper.getWritableDatabase();
+//
+//        /* The delete method deletes all of the desired rows from the table, not the table itself */
+//        database.delete(WeatherContract.WeatherEntry.TABLE_NAME, null, null);
+//
+//        /* Always close the database when you're through with it */
+//        database.close();
+//    }
 }
