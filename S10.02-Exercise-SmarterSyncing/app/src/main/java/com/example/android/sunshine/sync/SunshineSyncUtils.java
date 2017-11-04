@@ -15,21 +15,46 @@
  */
 package com.example.android.sunshine.sync;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+
+import com.example.android.sunshine.data.WeatherContract;
 
 
 public class SunshineSyncUtils {
 
-//  TODO (1) Declare a private static boolean field called sInitialized
+//  COMPLETED (1) Declare a private static boolean field called sInitialized
+    private static boolean sInitialized;
 
-    //  TODO (2) Create a synchronized public static void method called initialize
-    //  TODO (3) Only execute this method body if sInitialized is false
-    //  TODO (4) If the method body is executed, set sInitialized to true
-    //  TODO (5) Check to see if our weather ContentProvider is empty
-        //  TODO (6) If it is empty or we have a null Cursor, sync the weather now!
+    static {
+        sInitialized = false;
+    }
 
+    //  COMPLETED (2) Create a synchronized public static void method called initialize
+    //  COMPLETED (3) Only execute this method body if sInitialized is false
+    //  COMPLETED (4) If the method body is executed, set sInitialized to true
+    //  COMPLETED (5) Check to see if our weather ContentProvider is empty
+        //  COMPLETED (6) If it is empty or we have a null Cursor, sync the weather now!
+    synchronized public static void initialize(@NonNull final Context context){
+        if(!sInitialized){
+            ContentResolver resolver = context.getContentResolver();
+
+            Cursor result = resolver.query(WeatherContract.WeatherEntry.CONTENT_URI,
+                    null,
+                    null,
+                    null,
+                    WeatherContract.WeatherEntry.COLUMN_WEATHER_ID);
+
+            if(result == null || result.getCount() == 0)
+                startImmediateSync(context);
+
+            sInitialized = true;
+        }
+    }
     /**
      * Helper method to perform a sync immediately using an IntentService for asynchronous
      * execution.
